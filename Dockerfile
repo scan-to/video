@@ -1,13 +1,22 @@
-## 引入最新的golang ，不设置版本即为最新版本
-FROM golang
-## 在docker的根目录下创建相应的使用目录
-RUN mkdir -p /www/webapp
-## 设置程序在容器内的工作路径
-WORKDIR /www/webapp
-COPY . /www/webapp
-## 编译
-#RUN go build .
-## 暴露容器内部端口
+FROM golang:alpine AS builder
+
+WORKDIR /app/src
+COPY . /app/src
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    && apk add --no-cache ca-certificates git gcc build-base \
+    && go build -x -v -o /app/api main.go
+
+FROM alpine:latest
+
+WORKDIR /app
+COPY --from=builder /app/api /app
+COPY static /app/static/
+COPY video /app/video/
+
+RUN apk --no-cache add ca-certificates \
+    && chmod a+x /app/api
+
+ENTRYPOINT [ "./api" ]
+
 EXPOSE 9090
-## 启动docker需要执行的文件
-CMD go run main.go
