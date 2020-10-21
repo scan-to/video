@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>倒计时五秒后跳页面</title>
+    <style>
+        .center { margin-left: auto;
+            margin-right: auto;
+            display: block}
+        #Time,#p{
+            font-size: 20px;
+            text-align: center;
+        }
+        #Font,#p{
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        //1000毫秒调用一次
+        var myVar = window.setInterval("countDown()",1000);
+
+        function myFunction(){
+            //console.log("The End.")
+            window.location.href="https://scanto.tech/";
+        }
+
+        function countDown(){
+            //获取初始时间
+            var time = document.getElementById("Time");
+
+            //获取到id为time标签中的数字时间
+            if(time.innerHTML == 0){
+                //等于0时清除计时，并跳转该指定页面
+                //window.location.href="https://blog.csdn.net/qq_43021813";
+                //window.location.href="https://www.targetmediaculcreative.com.sg/";
+
+                clearInterval(myVar);
+
+                var btn = document.createElement("BUTTON");
+                var t = document.createTextNode("Skip");
+
+                btn.setAttribute("style","color:blue;font-size:23px");
+                btn.setAttribute("class", "center");
+                btn.appendChild(t);
+                document.body.appendChild(btn);
+
+                btn.onclick = function () {
+                    window.location.href="https://www.targetmediaculcreative.com.sg/";
+                }
+            }else{
+                time.innerHTML = time.innerHTML-1;
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!--<iframe id="frank" width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1">-->
+<!--</iframe>-->
+
+<!--<video width="320" height="240" autoplay controls preload>-->
+<!--    <source src=”http://techslides.com/demos/sample-videos/small.ogv” type=video/ogg>-->
+<!--    <source src="./video/mp4/mov_bbb.mp4" type=video/mp4>-->
+<!--</video>-->
+
+<video onended="myFunction()" class='center' width="400" height="300" src="../video/mp4/mov_bbb.mp4" autoplay muted>
+</video>
+
+<font color="green"><p id="Time" >5</p></font>
+<p id="Font">将跳转至主页</p>
+</body>
+</html>
